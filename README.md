@@ -1,1 +1,1 @@
-# genie-sample-api
+# music-api
