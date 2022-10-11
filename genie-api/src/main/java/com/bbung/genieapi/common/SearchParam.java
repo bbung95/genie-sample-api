@@ -9,5 +9,10 @@ import lombok.ToString;
 @ToString
 public class SearchParam {
 
+    private String searchType;
     private String keyword;
+
+    private int pageSize = 10;
+    private int pageNum;
+
 }

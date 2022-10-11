@@ -14,3 +14,8 @@ mybatis:
   type-aliases-package: com.bbung.genieapi
   configuration:
     map-underscore-to-camel-case: true    # Mybatis CamelCase
+
+pagehelper:
+  helper-dialect: h2
+  reasonable: true
+  support-methods-arguments: true

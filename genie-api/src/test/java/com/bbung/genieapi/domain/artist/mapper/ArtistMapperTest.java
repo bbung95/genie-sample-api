@@ -3,6 +3,7 @@ package com.bbung.genieapi.domain.artist.mapper;
 import com.bbung.genieapi.common.SearchParam;
 import com.bbung.genieapi.domain.artist.dto.ArtistDto;
 import com.bbung.genieapi.domain.artist.dto.ArtistListDto;
+import com.bbung.genieapi.domain.artist.dto.ArtistSearchParam;
 import com.bbung.genieapi.domain.artist.dto.ArtistUpdateFormDto;
 import com.bbung.genieapi.entity.Artist;
 import org.junit.jupiter.api.DisplayName;
@@ -84,10 +85,13 @@ class ArtistMapperTest {
                     .registrant("bbung")
                     .build();
 
-            Long id = artistMapper.insert(artist);
+            artistMapper.insert(artist);
         }
 
-        List<ArtistListDto> list = artistMapper.findList(new SearchParam());
+        ArtistSearchParam param = new ArtistSearchParam();
+        param.setPageSize(loopCount);
+
+        List<ArtistListDto> list = artistMapper.findList(param);
 
         assertThat(list.size()).isEqualTo(loopCount);
     }

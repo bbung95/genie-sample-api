@@ -6,15 +6,15 @@ import lombok.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Setter
 @Getter
 @ToString
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor
-public class ArtistUpdateFormDto {
-
+@AllArgsConstructor
+@Builder
+public class ArtistFormDto {
 
     @NotBlank(message = "아티스트명을 입력해주세요.")
     private String name;

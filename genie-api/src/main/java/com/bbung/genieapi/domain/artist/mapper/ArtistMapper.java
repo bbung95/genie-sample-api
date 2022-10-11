@@ -5,6 +5,8 @@ import com.bbung.genieapi.domain.artist.dto.ArtistDto;
 import com.bbung.genieapi.domain.artist.dto.ArtistListDto;
 import com.bbung.genieapi.domain.artist.dto.ArtistUpdateFormDto;
 import com.bbung.genieapi.entity.Artist;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageInfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

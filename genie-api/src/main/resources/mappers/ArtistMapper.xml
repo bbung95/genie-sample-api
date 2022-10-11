@@ -24,7 +24,7 @@
         FROM artist
         <where>
             <if test="keyword != null and keyword != '' ">
-                AND name = #{keyword}
+                AND name LIKE CONCAT('%', #{keyword}, '%')
             </if>
         </where>
         ORDER BY created_date DESC
