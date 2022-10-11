@@ -11,7 +11,8 @@ public class ArtistExceptionHandler {
 
     @ExceptionHandler({
             ArtistNotFoundException.class,
-            ArtistValidationException.class
+            ArtistValidationException.class,
+            ArtistParamValidationException.class
     })
     public ResponseEntity badRequestException(RuntimeException e){
 

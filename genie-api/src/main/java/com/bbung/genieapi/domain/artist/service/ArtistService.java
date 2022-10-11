@@ -4,18 +4,16 @@ import com.bbung.genieapi.common.MemberInfo;
 import com.bbung.genieapi.common.PageResponse;
 import com.bbung.genieapi.domain.artist.dto.*;
 import com.bbung.genieapi.domain.artist.exception.ArtistNotFoundException;
+import com.bbung.genieapi.domain.artist.exception.ArtistParamValidationException;
 import com.bbung.genieapi.domain.artist.mapper.ArtistMapper;
 import com.bbung.genieapi.entity.Artist;
 import com.bbung.genieapi.util.AuthUtil;
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -53,6 +51,8 @@ public class ArtistService {
 
     public PageResponse<ArtistListDto> findList(ArtistSearchParam param){
 
+        searchParamValidate(param);
+
         PageHelper.startPage(param.getPageNum(), param.getPageSize());
         PageInfo<ArtistListDto> page = PageInfo.of(artistMapper.findList(param));
 
@@ -78,5 +78,15 @@ public class ArtistService {
         int result = artistMapper.delete(id);
 
         return result;
+    }
+
+    private void searchParamValidate(ArtistSearchParam artistSearchParam){
+
+        if(artistSearchParam.getPageNum() < 0){
+            throw new ArtistParamValidationException();
+        }
+        if(artistSearchParam.getPageSize() < 0){
+            throw new ArtistParamValidationException();
+        }
     }
 }

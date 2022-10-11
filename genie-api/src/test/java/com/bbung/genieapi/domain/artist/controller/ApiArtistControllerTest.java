@@ -14,11 +14,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -135,7 +133,7 @@ class ApiArtistControllerTest {
         }
 
         @Test
-        @DisplayName("성공 200")
+        @DisplayName("검색 성공 200")
         public void findArtistListSearchMockTest() throws Exception {
 
             mockMvc.perform(get("/api/artist")
@@ -145,6 +143,17 @@ class ApiArtistControllerTest {
                     .andDo(print())
                     .andExpect(jsonPath("page.total").value(10))
                     .andExpect(status().isOk());
+        }
+
+        @Test
+        @DisplayName("page가 0보다 작을 경우 400")
+        public void findArtistListSearchBadRequestMockTest() throws Exception {
+
+            mockMvc.perform(get("/api/artist")
+                            .param("pageNum", "-1")
+                            .param("pageSize", "0"))
+                    .andDo(print())
+                    .andExpect(status().isBadRequest());
         }
     }
 
