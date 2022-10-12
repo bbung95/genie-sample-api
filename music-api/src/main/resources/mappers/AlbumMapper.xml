@@ -27,7 +27,7 @@
 
     <select id="findTrackList" resultType="TrackDto">
         SELECT
-        id, orders, title, play_time, exposure
+        id, orders, title, play_time, exposure, created_date, modified_date
         FROM track
         WHERE album_id = #{id}
         ORDER BY orders ASC

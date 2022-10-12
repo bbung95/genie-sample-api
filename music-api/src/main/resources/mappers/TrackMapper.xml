@@ -3,12 +3,42 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bbung.musicapi.domain.track.mapper.TrackMapper">
 
-    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insert">
         INSERT
         INTO track
-        (title, play_time, exposure, orders, created_date)
+        (title, play_time, exposure, orders, album_id, created_date)
         VALUES
-        (#{title}, #{playTime}, #{exposure}, #{orders}, NOW())
+        <foreach collection="list" item="item" separator=",">
+        (#{item.title}, #{item.playTime}, #{item.exposure}, #{item.orders}, #{item.albumId}, NOW())
+        </foreach>
     </insert>
+
+    <select id="findList" resultType="Track">
+        SELECT
+        id
+        FROM track
+        WHERE album_id = #{albumId}
+    </select>
+
+    <update id="update">
+        <foreach collection="list" item="item" separator=";">
+        UPDATE
+        track
+        SET
+        orders = #{item.orders},
+        title = #{item.title},
+        play_time = #{item.playTime},
+        exposure = #{item.exposure}
+        WHERE id = #{item.id}
+        </foreach>
+    </update>
+
+    <delete id="delete">
+        <foreach collection="list" item="item" separator=";">
+        DELETE
+        FROM track
+        WHERE id = #{item.id}
+        </foreach>
+    </delete>
     
 </mapper>

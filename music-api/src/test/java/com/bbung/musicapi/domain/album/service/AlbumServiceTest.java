@@ -8,16 +8,24 @@ import com.bbung.musicapi.domain.album.exception.AlbumNotFoundException;
 import com.bbung.musicapi.domain.artist.exception.ArtistNotFoundException;
 import com.bbung.musicapi.domain.artist.exception.ParamValidationException;
 import com.bbung.musicapi.domain.artist.mapper.ArtistMapper;
+import com.bbung.musicapi.domain.track.dto.TrackFormDto;
+import com.bbung.musicapi.domain.track.enums.TrackExposure;
 import com.bbung.musicapi.entity.Artist;
+import com.bbung.musicapi.entity.Track;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -31,6 +39,9 @@ class AlbumServiceTest {
 
     @Autowired
     private ArtistMapper artistMapper;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @BeforeEach
     public void sampleArtist(){
@@ -63,6 +74,7 @@ class AlbumServiceTest {
                     .releaseDate(LocalDate.of(2022, 07, 20))
                     .artistId(SUCCESS_ID)
                     .genreId(1L)
+                    .tracks(trackList())
                     .build();
 
             Long id = albumService.saveAlbum(album);
@@ -104,11 +116,14 @@ class AlbumServiceTest {
                     .releaseDate(LocalDate.of(2022, 07, 20))
                     .artistId(1L)
                     .genreId(1L)
+                    .tracks(trackList())
                     .build();
 
             Long id = albumService.saveAlbum(album);
 
             AlbumDto albumDto = albumService.findById(id);
+
+            System.out.println(albumDto);
 
             assertThat(albumDto.getArtistName()).isEqualTo("뉴진스");
             assertThat(albumDto.getTitle()).isEqualTo("NewJeans");
@@ -209,15 +224,37 @@ class AlbumServiceTest {
                     .releaseDate(LocalDate.of(2022, 07, 20))
                     .artistId(SUCCESS_ID)
                     .genreId(1L)
+                    .tracks(trackList())
                     .build();
 
             Long id = albumService.saveAlbum(album);
 
-            album.setGenreId(2L);
+            List<TrackFormDto> trackFormDtos = trackList();
 
-            int result = albumService.updateAlbum(id, album);
+            trackFormDtos.remove(1);
+            trackFormDtos.remove(0);
 
-            assertThat(SUCCESS).isEqualTo(result);
+            TrackFormDto trackFormDto = new TrackFormDto();
+            trackFormDto.setTitle("음원" + 5);
+            trackFormDto.setOrders(5);
+            trackFormDto.setExposure(TrackExposure.EXPOSURE.name());
+            trackFormDto.setPlayTime("03:10");
+
+            trackFormDtos.add(trackFormDto);
+
+            trackFormDto.setTitle("음원" + 6);
+            trackFormDto.setOrders(6);
+            trackFormDto.setExposure(TrackExposure.EXPOSURE.name());
+            trackFormDto.setPlayTime("03:10");
+
+            trackFormDtos.add(trackFormDto);
+            album.setTracks(trackFormDtos);
+
+            albumService.updateAlbum(id, album);
+
+            AlbumDto findAlbum = albumService.findById(id);
+
+            assertThat(findAlbum.getTracks().size()).isEqualTo(trackFormDtos.size());
         }
 
         @Test
@@ -276,6 +313,22 @@ class AlbumServiceTest {
 
             assertThat(albumNotFoundException.getMessage()).isEqualTo("해당 ID " + FAIL_ID + "가 존재하지 않습니다.");
         }
+    }
+
+    private List<TrackFormDto> trackList(){
+        List<TrackFormDto> trackFormList = new ArrayList<>();
+
+        for(int i = 1; i <= 4; i++){
+            TrackFormDto trackFormDto = new TrackFormDto();
+            trackFormDto.setId(Integer.toUnsignedLong(i));
+            trackFormDto.setTitle("음원" + i);
+            trackFormDto.setOrders(i);
+            trackFormDto.setExposure(TrackExposure.EXPOSURE.name());
+            trackFormDto.setPlayTime("03:10");
+            trackFormList.add(trackFormDto);
+        }
+
+        return trackFormList;
     }
 
 }
