@@ -14,7 +14,7 @@ import java.util.Optional;
 @Mapper
 public interface ArtistMapper {
 
-    Long insert(Artist artist);
+    void insert(Artist artist);
 
     Optional<ArtistDto> findById(Long id);
 

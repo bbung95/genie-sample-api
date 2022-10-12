@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bbung.musicapi.domain.album.mapper.AlbumMapper">
+
+    <resultMap id="AlbumDetailMap" type="AlbumDto">
+        <id column="id" property="id"/>
+        <collection property="tracks" column="id" javaType="java.util.ArrayList" ofType="Long" select="findTrackList" />
+    </resultMap>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT
+        INTO album
+        (title, contents, registrant, release_date, created_date, artist_id, genre_id)
+        VALUES
+        (#{title}, #{contents}, #{registrant}, #{releaseDate}, NOW(), #{artistId}, #{genreId})
+    </insert>
+    
+    <select id="findById" resultMap="AlbumDetailMap">
+        SELECT
+        al.id, a.name as artistName, al.title, al.registrant, al.release_date, al.created_date, g.title as genreTitle, al.contents
+        FROM album al
+            JOIN artist a ON al.artist_id = a.id
+            JOIN genre g ON al.genre_id = g.id
+        WHERE al.id = #{id}
+    </select>
+
+    <select id="findTrackList" resultType="TrackDto">
+        SELECT
+        id, orders, title, play_time, exposure
+        FROM track
+        WHERE album_id = #{id}
+        ORDER BY orders ASC
+    </select>
+
+    <select id="findList" resultType="AlbumDto">
+        SELECT
+        al.id, a.name as artistName, al.title, al.registrant, al.release_date, al.created_date, g.title as genreTitle, al.contents
+        FROM album al
+            JOIN artist a ON al.artist_id = a.id
+            JOIN genre g ON al.genre_id = g.id
+        <where>
+            <if test="keyword != null and keyword != '' ">
+                AND al.title LIKE CONCAT('%', #{keyword}, '%')
+            </if>
+        </where>
+        ORDER BY al.created_date DESC
+    </select>
+
+    <update id="update">
+        UPDATE
+        album
+        SET
+        title = #{album.title},
+        contents = #{album.contents},
+        release_date = #{album.releaseDate},
+        artist_id = #{album.artistId},
+        genre_id = #{album.genreId},
+        modified_date = NOW()
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete">
+        DELETE
+        FROM album
+        WHERE id = #{id}
+    </delete>
+</mapper>

@@ -1,1 +1,2 @@
 TRUNCATE TABLE artist;
+TRUNCATE TABLE album;

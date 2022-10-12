@@ -4,7 +4,6 @@ import com.bbung.musicapi.common.MemberInfo;
 import com.bbung.musicapi.common.PageResponse;
 import com.bbung.musicapi.domain.artist.dto.*;
 import com.bbung.musicapi.domain.artist.exception.ArtistNotFoundException;
-import com.bbung.musicapi.domain.artist.exception.ArtistParamValidationException;
 import com.bbung.musicapi.domain.artist.mapper.ArtistMapper;
 import com.bbung.musicapi.entity.Artist;
 import com.bbung.musicapi.util.AuthUtil;
@@ -33,9 +32,9 @@ public class ArtistService {
         Artist artist = modelMapper.map(artistFormDto, Artist.class);
         artist.setRegistrant(memberInfo.getName());
 
-        Long id = artistMapper.insert(artist);
+        artistMapper.insert(artist);
 
-        return id;
+        return artist.getId();
     }
 
     public ArtistDto findById(Long id){
@@ -51,7 +50,7 @@ public class ArtistService {
 
     public PageResponse<ArtistListDto> findList(ArtistSearchParam param){
 
-        searchParamValidate(param);
+        param.searchParamValidate();
 
         PageHelper.startPage(param.getPageNum(), param.getPageSize());
         PageInfo<ArtistListDto> page = PageInfo.of(artistMapper.findList(param));
@@ -80,13 +79,4 @@ public class ArtistService {
         return result;
     }
 
-    private void searchParamValidate(ArtistSearchParam artistSearchParam){
-
-        if(artistSearchParam.getPageNum() < 0){
-            throw new ArtistParamValidationException();
-        }
-        if(artistSearchParam.getPageSize() < 0){
-            throw new ArtistParamValidationException();
-        }
-    }
 }

@@ -38,9 +38,9 @@ class ArtistMapperTest {
                 .registrant("bbung")
                 .build();
 
-        Long id = artistMapper.insert(artist);
+        artistMapper.insert(artist);
 
-        assertThat(id).isEqualTo(1L);
+        assertThat(artist.getId()).isEqualTo(1L);
     }
 
     @Test
@@ -56,9 +56,9 @@ class ArtistMapperTest {
                 .registrant("bbung")
                 .build();
 
-        Long id = artistMapper.insert(artist);
+        artistMapper.insert(artist);
 
-        ArtistDto artistDto = artistMapper.findById(id).get();
+        ArtistDto artistDto = artistMapper.findById(artist.getId()).get();
 
         assertThat(artist.getName()).isEqualTo(artistDto.getName());
         assertThat(artist.getAgency()).isEqualTo(artistDto.getAgency());
@@ -108,7 +108,7 @@ class ArtistMapperTest {
                 .registrant("bbung")
                 .build();
 
-        Long id = artistMapper.insert(artist);
+        artistMapper.insert(artist);
 
         ArtistUpdateFormDto artistUpdateFormDto = new ArtistUpdateFormDto();
         artistUpdateFormDto.setName("뉴진스");
@@ -117,9 +117,9 @@ class ArtistMapperTest {
         artistUpdateFormDto.setContents("하이브 소속");
         artistUpdateFormDto.setNationality("다국적");
 
-        int result = artistMapper.update(id, artistUpdateFormDto);
+        int result = artistMapper.update(artist.getId(), artistUpdateFormDto);
 
-        ArtistDto artistDto = artistMapper.findById(id).get();
+        ArtistDto artistDto = artistMapper.findById(artist.getId()).get();
 
         assertThat(result).isEqualTo(SUCCESS);
         assertThat("하이브").isEqualTo(artistDto.getAgency());
@@ -138,9 +138,9 @@ class ArtistMapperTest {
                 .registrant("bbung")
                 .build();
 
-        Long id = artistMapper.insert(artist);
+        artistMapper.insert(artist);
 
-        int result = artistMapper.delete(id);
+        int result = artistMapper.delete(artist.getId());
 
         assertThat(result).isEqualTo(SUCCESS);
     }

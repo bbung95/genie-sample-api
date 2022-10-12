@@ -7,6 +7,7 @@ import com.bbung.musicapi.domain.artist.service.ArtistService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -17,6 +18,7 @@ import javax.validation.Valid;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/artist")
+@Slf4j
 public class ApiArtistController {
 
     private final ArtistService artistService;
@@ -32,6 +34,9 @@ public class ApiArtistController {
         }
 
         Long id = artistService.saveArtist(artistFormDto);
+
+        log.info("ID = {}", id);
+
         ObjectNode bodyData = objectMapper.createObjectNode().put("id", id);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(bodyData);

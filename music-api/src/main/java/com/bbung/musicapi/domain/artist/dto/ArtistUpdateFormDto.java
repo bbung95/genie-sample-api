@@ -15,7 +15,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class ArtistUpdateFormDto {
 
-
     @NotBlank(message = "아티스트명을 입력해주세요.")
     private String name;
     @JsonFormat(pattern = "yyyy-MM-dd")

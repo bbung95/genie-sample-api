@@ -11,15 +11,16 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Artist {
+public class Album {
 
     private Long id;
-    private String name;
-    private String agency;
-    private String nationality;
+    private String title;
     private String contents;
     private String registrant;
-    private LocalDate birthday;
+    private LocalDate releaseDate;
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
+
+    private Long artistId;
+    private Long genreId;
 }

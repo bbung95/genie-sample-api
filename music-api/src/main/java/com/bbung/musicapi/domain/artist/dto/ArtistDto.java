@@ -19,7 +19,7 @@ public class ArtistDto {
     private String contents;
     private String registrant;
     private LocalDate birthday;
-    private LocalDateTime created_date;
-    private LocalDateTime modified_date;
+    private LocalDateTime createdDate;
+    private LocalDateTime modifiedDate;
 
 }
