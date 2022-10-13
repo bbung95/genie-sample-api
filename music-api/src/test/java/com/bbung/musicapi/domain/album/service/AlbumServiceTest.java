@@ -11,7 +11,6 @@ import com.bbung.musicapi.domain.artist.mapper.ArtistMapper;
 import com.bbung.musicapi.domain.track.dto.TrackFormDto;
 import com.bbung.musicapi.domain.track.enums.TrackExposure;
 import com.bbung.musicapi.entity.Artist;
-import com.bbung.musicapi.entity.Track;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -23,9 +22,7 @@ import org.springframework.test.context.jdbc.Sql;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -39,9 +36,6 @@ class AlbumServiceTest {
 
     @Autowired
     private ArtistMapper artistMapper;
-
-    @Autowired
-    private ModelMapper modelMapper;
 
     @BeforeEach
     public void sampleArtist(){
@@ -210,7 +204,6 @@ class AlbumServiceTest {
     @DisplayName("앨범 수정 테스트")
     class updateAlbum{
 
-        private final int SUCCESS = 1;
         private final Long SUCCESS_ID = 1L;
         private final Long FAIL_ID = 100L;
 

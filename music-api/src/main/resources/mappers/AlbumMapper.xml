@@ -21,7 +21,7 @@
         al.id, a.name as artistName, al.title, al.registrant, al.release_date, al.created_date, g.title as genreTitle, al.contents
         FROM album al
             JOIN artist a ON al.artist_id = a.id
-            JOIN genre g ON al.genre_id = g.id
+            LEFT JOIN genre g ON al.genre_id = g.id
         WHERE al.id = #{id}
     </select>
 
@@ -38,7 +38,7 @@
         al.id, a.name as artistName, al.title, al.registrant, al.release_date, al.created_date, g.title as genreTitle, al.contents
         FROM album al
             JOIN artist a ON al.artist_id = a.id
-            JOIN genre g ON al.genre_id = g.id
+            LEFT JOIN genre g ON al.genre_id = g.id
         <where>
             <if test="keyword != null and keyword != '' ">
                 AND al.title LIKE CONCAT('%', #{keyword}, '%')

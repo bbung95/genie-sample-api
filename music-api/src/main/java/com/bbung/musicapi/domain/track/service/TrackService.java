@@ -1,6 +1,8 @@
 package com.bbung.musicapi.domain.track.service;
 
+import com.bbung.musicapi.domain.album.service.AlbumService;
 import com.bbung.musicapi.domain.track.dto.TrackFormDto;
+import com.bbung.musicapi.domain.track.exception.TrackValidationException;
 import com.bbung.musicapi.domain.track.mapper.TrackMapper;
 import com.bbung.musicapi.entity.Track;
 import lombok.RequiredArgsConstructor;
@@ -25,20 +27,29 @@ public class TrackService {
 
     public void saveTracks(Long albumId, List<TrackFormDto> trackFormList){
 
+        tracksValidationCheck(trackFormList);
+
         if(trackFormList.size() > 0) {
             List<Track> tracks = trackToArray(albumId, trackFormList);
             trackMapper.insert(tracks);
         }
     }
 
-    @Transactional
     public void updateTrack(Long albumId, List<TrackFormDto> trackFormList) {
 
-        List<Track> tracks = trackToArray(albumId, trackFormList);
+        tracksValidationCheck(trackFormList);
 
-        trackMapper.delete(deleteTrackToArray(albumId, tracks));
-        trackMapper.insert(tracks.stream().filter(item -> item.getId() == null).collect(Collectors.toList()));
-        trackMapper.update(tracks.stream().filter(item -> item.getId() != null).collect(Collectors.toList()));
+        List<Track> tracks = trackToArray(albumId, trackFormList);
+        deleteTrack(albumId, tracks);
+
+        List<Track> insertList = tracks.stream().filter(item -> item.getId() == null).collect(Collectors.toList());
+        if(insertList.size() > 0){
+            trackMapper.insert(insertList);
+        }
+        List<Track> updateList = tracks.stream().filter(item -> item.getId() != null).collect(Collectors.toList());
+        if(updateList.size() > 0){
+            trackMapper.update(updateList);
+        }
     }
 
     private List<Track> trackToArray(Long albumId, List<TrackFormDto> trackFormList){
@@ -51,10 +62,29 @@ public class TrackService {
                 .collect(Collectors.toList());
     }
 
-    private List<Track> deleteTrackToArray(Long albumId, List<Track> tracks){
-        return trackMapper.findList(albumId).stream()
+    private void deleteTrack(Long albumId, List<Track> tracks){
+        List<Track> deleteList = trackMapper.findList(albumId).stream()
                 .filter(item -> !tracks.stream()
                         .map(i -> i.getId()).collect(Collectors.toList())
                         .contains(item.getId())).collect(Collectors.toList());
+
+        trackMapper.delete(deleteList);
     };
+
+    private void tracksValidationCheck(List<TrackFormDto> trackFormList){
+
+        trackFormList.forEach(item -> {
+            if(item.getTitle() == null){
+                throw new TrackValidationException("음원명");
+            }else if(item.getPlayTime() == null){
+                throw new TrackValidationException("재생시간");
+            }else if(item.getExposure() == null){
+                throw new TrackValidationException("노출여부");
+            }else if(item.getOrders() == 0){
+                throw new TrackValidationException("순서");
+            }
+        });
+
+    }
+
 }

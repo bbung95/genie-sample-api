@@ -10,7 +10,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class AlbumExceptionHandler {
 
-    @ExceptionHandler(ArtistNotFoundException.class)
+    @ExceptionHandler({
+            AlbumNotFoundException.class,
+            AlbumValidationException.class
+    })
     public ResponseEntity badRequestHandler(RuntimeException e){
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
