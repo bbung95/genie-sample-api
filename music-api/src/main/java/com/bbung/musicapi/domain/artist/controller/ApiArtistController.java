@@ -34,9 +34,6 @@ public class ApiArtistController {
         }
 
         Long id = artistService.saveArtist(artistFormDto);
-
-        log.info("ID = {}", id);
-
         ObjectNode bodyData = objectMapper.createObjectNode().put("id", id);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(bodyData);
@@ -54,8 +51,6 @@ public class ApiArtistController {
     public ResponseEntity findArtistList(ArtistSearchParam param){
 
         PageResponse<ArtistListDto> result = artistService.findList(param);
-
-        System.out.println(result.getPage());
 
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }

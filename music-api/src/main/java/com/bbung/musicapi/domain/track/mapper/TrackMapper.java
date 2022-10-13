@@ -15,4 +15,6 @@ public interface TrackMapper {
     List<Track> findList(Long albumId);
 
     int delete(List<Track> list);
+
+    void deleteAll(Long albumId);
 }

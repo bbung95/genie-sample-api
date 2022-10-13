@@ -65,4 +65,11 @@
         FROM album
         WHERE id = #{id}
     </delete>
+
+    <select id="artistAlbumList" resultType="long">
+        SELECT
+        id
+        FROM album
+        WHERE artist_id = #{artistId}
+    </select>
 </mapper>

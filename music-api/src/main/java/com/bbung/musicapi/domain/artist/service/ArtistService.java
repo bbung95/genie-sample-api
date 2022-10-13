@@ -2,8 +2,10 @@ package com.bbung.musicapi.domain.artist.service;
 
 import com.bbung.musicapi.common.MemberInfo;
 import com.bbung.musicapi.common.PageResponse;
+import com.bbung.musicapi.domain.album.listner.AlbumEventHandler;
 import com.bbung.musicapi.domain.artist.dto.*;
 import com.bbung.musicapi.domain.artist.exception.ArtistNotFoundException;
+import com.bbung.musicapi.domain.artist.listner.ArtistDeleteEvent;
 import com.bbung.musicapi.domain.artist.mapper.ArtistMapper;
 import com.bbung.musicapi.entity.Artist;
 import com.bbung.musicapi.util.AuthUtil;
@@ -11,7 +13,9 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -24,6 +28,8 @@ public class ArtistService {
     private final ModelMapper modelMapper;
 
     private final AuthUtil authUtil;
+
+    private final ApplicationEventPublisher applicationEventPublisher;
 
     public Long saveArtist(ArtistFormDto artistFormDto){
 
@@ -70,13 +76,14 @@ public class ArtistService {
         return result;
     }
 
+    @Transactional
     public int deleteArtist(Long id) {
 
         findById(id);
 
-        int result = artistMapper.delete(id);
+        applicationEventPublisher.publishEvent(new ArtistDeleteEvent(id));
 
-        return result;
+        return 1;
     }
 
 }

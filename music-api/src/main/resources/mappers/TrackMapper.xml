@@ -40,5 +40,10 @@
         WHERE id = #{item.id}
         </foreach>
     </delete>
-    
+
+    <delete id="deleteAll">
+        DELETE
+        FROM track
+        WHERE album_id = #{albumId}
+    </delete>
 </mapper>

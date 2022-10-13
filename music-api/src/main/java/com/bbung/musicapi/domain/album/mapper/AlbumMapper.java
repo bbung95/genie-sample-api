@@ -22,4 +22,6 @@ public interface AlbumMapper {
     int update(@Param("id") Long id, @Param("album") AlbumFormDto albumFormDto);
 
     int delete(Long id);
+
+    List<Long> artistAlbumList(Long artistId);
 }

@@ -6,6 +6,7 @@ import com.bbung.musicapi.domain.album.dto.AlbumDto;
 import com.bbung.musicapi.domain.album.dto.AlbumFormDto;
 import com.bbung.musicapi.domain.album.dto.AlbumSearchParam;
 import com.bbung.musicapi.domain.album.exception.AlbumNotFoundException;
+import com.bbung.musicapi.domain.album.listner.AlbumDeleteEvent;
 import com.bbung.musicapi.domain.album.mapper.AlbumMapper;
 import com.bbung.musicapi.domain.artist.service.ArtistService;
 import com.bbung.musicapi.domain.track.service.TrackService;
@@ -15,10 +16,10 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -34,6 +35,8 @@ public class AlbumService {
     private final ModelMapper modelMapper;
 
     private final AuthUtil authUtil;
+
+    private final ApplicationEventPublisher applicationEventPublisher;
 
     @Transactional
     public Long saveAlbum(AlbumFormDto albumFormDto){
@@ -83,19 +86,17 @@ public class AlbumService {
         artistService.findById(albumFormDto.getArtistId());
 
         int result = albumMapper.update(id, albumFormDto);
-
         trackService.updateTrack(id, albumFormDto.getTracks());
 
         return result;
     }
 
+    @Transactional
     public int deleteAlbum(Long id){
 
         findById(id);
+        applicationEventPublisher.publishEvent(new AlbumDeleteEvent(id));
 
-        int result = albumMapper.delete(id);
-
-        return result;
+        return 1;
     }
-
 }
