@@ -17,6 +17,7 @@ import java.util.List;
 public class AlbumDto {
 
     public interface AlbumDetailView{};
+    public interface AlbumListView{};
 
     private Long id;
     private String artistName;

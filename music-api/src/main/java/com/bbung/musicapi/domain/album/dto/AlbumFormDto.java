@@ -20,7 +20,8 @@ import java.util.List;
 public class AlbumFormDto {
 
     @Min(value = 1, message = "아티스트를 선택해주세요.")
-    private Long artistId;
+    @NotNull(message = "아티스트를 선택해주세요.")
+    private Long artistId = 0L;
     @NotBlank(message = "앨범명을 입력해주세요.")
     private String title;
     @NotNull(message = "발매일을 입력해주세요.")

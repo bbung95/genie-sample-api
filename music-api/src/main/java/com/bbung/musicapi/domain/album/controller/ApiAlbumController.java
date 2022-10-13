@@ -6,6 +6,7 @@ import com.bbung.musicapi.domain.album.dto.AlbumFormDto;
 import com.bbung.musicapi.domain.album.dto.AlbumSearchParam;
 import com.bbung.musicapi.domain.album.exception.AlbumValidationException;
 import com.bbung.musicapi.domain.album.service.AlbumService;
+import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +40,7 @@ public class ApiAlbumController {
     }
 
     @GetMapping("{id}")
+    @JsonView(AlbumDto.AlbumDetailView.class)
     public ResponseEntity findAlbum(@PathVariable Long id){
 
         AlbumDto findAlbum = albumService.findById(id);
@@ -47,6 +49,7 @@ public class ApiAlbumController {
     }
 
     @GetMapping
+    @JsonView(AlbumDto.AlbumListView.class)
     public ResponseEntity findAlbumList(AlbumSearchParam param){
 
         PageResponse<AlbumDto> result = albumService.findList(param);
