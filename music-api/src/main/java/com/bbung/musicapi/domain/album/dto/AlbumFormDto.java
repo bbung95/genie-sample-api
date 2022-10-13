@@ -4,6 +4,7 @@ import com.bbung.musicapi.domain.track.dto.TrackDto;
 import com.bbung.musicapi.domain.track.dto.TrackFormDto;
 import lombok.*;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -29,6 +30,7 @@ public class AlbumFormDto {
     private Long genreId = 0L;
     private String contents;
 
+    @Valid
     @Builder.Default
     private List<TrackFormDto> tracks = new ArrayList<>();
 }

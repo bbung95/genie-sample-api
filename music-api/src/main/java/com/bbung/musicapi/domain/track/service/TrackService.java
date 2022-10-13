@@ -27,8 +27,6 @@ public class TrackService {
 
     public void saveTracks(Long albumId, List<TrackFormDto> trackFormList){
 
-        tracksValidationCheck(trackFormList);
-
         if(trackFormList.size() > 0) {
             List<Track> tracks = trackToArray(albumId, trackFormList);
             trackMapper.insert(tracks);
@@ -36,8 +34,6 @@ public class TrackService {
     }
 
     public void updateTrack(Long albumId, List<TrackFormDto> trackFormList) {
-
-        tracksValidationCheck(trackFormList);
 
         List<Track> tracks = trackToArray(albumId, trackFormList);
         deleteTrack(albumId, tracks);
@@ -71,20 +67,20 @@ public class TrackService {
         trackMapper.delete(deleteList);
     };
 
-    private void tracksValidationCheck(List<TrackFormDto> trackFormList){
-
-        trackFormList.forEach(item -> {
-            if(item.getTitle() == null){
-                throw new TrackValidationException("음원명");
-            }else if(item.getPlayTime() == null){
-                throw new TrackValidationException("재생시간");
-            }else if(item.getExposure() == null){
-                throw new TrackValidationException("노출여부");
-            }else if(item.getOrders() == 0){
-                throw new TrackValidationException("순서");
-            }
-        });
-
-    }
+//    private void tracksValidationCheck(List<TrackFormDto> trackFormList){
+//
+//        trackFormList.forEach(item -> {
+//            if(item.getTitle() == null){
+//                throw new TrackValidationException("음원명");
+//            }else if(item.getPlayTime() == null){
+//                throw new TrackValidationException("재생시간");
+//            }else if(item.getExposure() == null){
+//                throw new TrackValidationException("노출여부");
+//            }else if(item.getOrders() == 0){
+//                throw new TrackValidationException("순서");
+//            }
+//        });
+//
+//    }
 
 }
