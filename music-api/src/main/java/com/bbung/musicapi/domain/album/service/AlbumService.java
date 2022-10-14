@@ -6,7 +6,7 @@ import com.bbung.musicapi.domain.album.dto.AlbumDto;
 import com.bbung.musicapi.domain.album.dto.AlbumFormDto;
 import com.bbung.musicapi.domain.album.dto.AlbumSearchParam;
 import com.bbung.musicapi.domain.album.exception.AlbumNotFoundException;
-import com.bbung.musicapi.domain.album.listner.AlbumDeleteEvent;
+import com.bbung.musicapi.domain.album.listener.AlbumDeleteEvent;
 import com.bbung.musicapi.domain.album.mapper.AlbumMapper;
 import com.bbung.musicapi.domain.artist.service.ArtistService;
 import com.bbung.musicapi.domain.track.service.TrackService;

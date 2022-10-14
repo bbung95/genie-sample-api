@@ -1,4 +1,4 @@
-package com.bbung.musicapi.domain.artist.listner;
+package com.bbung.musicapi.domain.artist.listener;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

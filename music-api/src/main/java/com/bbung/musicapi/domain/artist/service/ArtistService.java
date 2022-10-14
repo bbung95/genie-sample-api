@@ -2,10 +2,9 @@ package com.bbung.musicapi.domain.artist.service;
 
 import com.bbung.musicapi.common.MemberInfo;
 import com.bbung.musicapi.common.PageResponse;
-import com.bbung.musicapi.domain.album.listner.AlbumEventHandler;
 import com.bbung.musicapi.domain.artist.dto.*;
 import com.bbung.musicapi.domain.artist.exception.ArtistNotFoundException;
-import com.bbung.musicapi.domain.artist.listner.ArtistDeleteEvent;
+import com.bbung.musicapi.domain.artist.listener.ArtistDeleteEvent;
 import com.bbung.musicapi.domain.artist.mapper.ArtistMapper;
 import com.bbung.musicapi.entity.Artist;
 import com.bbung.musicapi.util.AuthUtil;
@@ -28,6 +27,7 @@ public class ArtistService {
     private final ModelMapper modelMapper;
 
     private final AuthUtil authUtil;
+
 
     private final ApplicationEventPublisher applicationEventPublisher;
 

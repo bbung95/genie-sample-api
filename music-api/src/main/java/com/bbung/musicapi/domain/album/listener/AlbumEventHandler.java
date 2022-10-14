@@ -1,16 +1,16 @@
-package com.bbung.musicapi.domain.album.listner;
+package com.bbung.musicapi.domain.album.listener;
 
-import com.bbung.musicapi.domain.album.dto.AlbumDto;
 import com.bbung.musicapi.domain.album.mapper.AlbumMapper;
-import com.bbung.musicapi.domain.album.service.AlbumService;
 import com.bbung.musicapi.domain.track.mapper.TrackMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class AlbumEventHandler {
 
     private final AlbumMapper albumMapper;
@@ -20,7 +20,7 @@ public class AlbumEventHandler {
     @Order(1)
     public void trackDelete(AlbumDeleteEvent event){
 
-        System.out.println("trackDelete");
+        log.info("TrackDelete");
 
         trackMapper.deleteAll(event.getId());
     }
@@ -28,7 +28,8 @@ public class AlbumEventHandler {
     @EventListener
     @Order(2)
     public void albumDelete(AlbumDeleteEvent event){
-        System.out.println("albumDelete");
+
+        log.info("albumDelete");
 
         albumMapper.delete(event.getId());
     }

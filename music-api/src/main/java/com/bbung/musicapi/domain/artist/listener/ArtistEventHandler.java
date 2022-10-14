@@ -1,10 +1,10 @@
-package com.bbung.musicapi.domain.artist.listner;
+package com.bbung.musicapi.domain.artist.listener;
 
 import com.bbung.musicapi.domain.album.mapper.AlbumMapper;
 import com.bbung.musicapi.domain.album.service.AlbumService;
 import com.bbung.musicapi.domain.artist.mapper.ArtistMapper;
-import com.bbung.musicapi.domain.track.mapper.TrackMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -13,6 +13,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class ArtistEventHandler {
 
     private final ArtistMapper artistMapper;
@@ -32,7 +33,7 @@ public class ArtistEventHandler {
     @Order(2)
     public void artistDelete(ArtistDeleteEvent event){
 
-        System.out.println("artistDelete");
+        log.info("ArtistDelete");
 
         artistMapper.delete(event.getId());
     }
