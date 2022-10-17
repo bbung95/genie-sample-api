@@ -5,17 +5,16 @@ import com.bbung.musicapi.domain.album.dto.AlbumDto;
 import com.bbung.musicapi.domain.album.dto.AlbumFormDto;
 import com.bbung.musicapi.domain.album.dto.AlbumSearchParam;
 import com.bbung.musicapi.domain.album.exception.AlbumNotFoundException;
+import com.bbung.musicapi.domain.artist.dto.ArtistFormDto;
 import com.bbung.musicapi.domain.artist.exception.ArtistNotFoundException;
 import com.bbung.musicapi.domain.artist.exception.ParamValidationException;
 import com.bbung.musicapi.domain.artist.mapper.ArtistMapper;
 import com.bbung.musicapi.domain.track.dto.TrackFormDto;
 import com.bbung.musicapi.domain.track.enums.TrackExposure;
-import com.bbung.musicapi.entity.Artist;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
@@ -39,7 +38,7 @@ class AlbumServiceTest {
 
     @BeforeEach
     public void sampleArtist(){
-        Artist artist = Artist.builder()
+        ArtistFormDto artist = ArtistFormDto.builder()
                 .name("뉴진스")
                 .agency("ADOR")
                 .birthday(LocalDate.of(2022, 7, 22))
@@ -291,9 +290,7 @@ class AlbumServiceTest {
                     .build();
 
             Long id = albumService.saveAlbum(album);
-            int result = albumService.deleteAlbum(id);
-
-            assertThat(SUCCESS).isEqualTo(result);
+            albumService.deleteAlbum(id);
         }
 
         @Test

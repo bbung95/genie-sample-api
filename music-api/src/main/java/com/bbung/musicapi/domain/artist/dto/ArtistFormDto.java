@@ -23,4 +23,7 @@ public class ArtistFormDto {
     private String agency;
     private String nationality;
     private String contents;
+
+    private String registrant;
+    private Long id;
 }

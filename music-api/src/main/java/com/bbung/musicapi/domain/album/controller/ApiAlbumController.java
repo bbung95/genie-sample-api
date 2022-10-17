@@ -40,7 +40,7 @@ public class ApiAlbumController {
     }
 
     @GetMapping("{id}")
-//    @JsonView(AlbumDto.AlbumDetailView.class)
+    @JsonView(AlbumDto.AlbumDetailView.class)
     public ResponseEntity findAlbum(@PathVariable Long id){
 
         AlbumDto findAlbum = albumService.findById(id);
@@ -49,7 +49,7 @@ public class ApiAlbumController {
     }
 
     @GetMapping
-//    @JsonView(AlbumDto.AlbumListView.class)
+    @JsonView(AlbumDto.AlbumListView.class)
     public ResponseEntity findAlbumList(AlbumSearchParam param){
 
         PageResponse<AlbumDto> result = albumService.findList(param);

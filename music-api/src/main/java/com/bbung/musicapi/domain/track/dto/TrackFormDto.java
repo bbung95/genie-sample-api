@@ -21,4 +21,6 @@ public class TrackFormDto {
     private String exposure;
     @Min(value = 1, message = "순서를 입력해주세요.")
     private int orders;
+
+    private Long albumId;
 }

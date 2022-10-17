@@ -1,8 +1,8 @@
 package com.bbung.musicapi.domain.track.service;
 
+import com.bbung.musicapi.domain.track.dto.TrackDto;
 import com.bbung.musicapi.domain.track.dto.TrackFormDto;
 import com.bbung.musicapi.domain.track.mapper.TrackMapper;
-import com.bbung.musicapi.entity.Track;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -23,48 +23,41 @@ public class TrackService {
     public void saveTracks(Long albumId, List<TrackFormDto> trackFormList){
 
         if(trackFormList.size() > 0) {
-            List<Track> tracks = trackToArray(albumId, trackFormList);
-            trackMapper.insert(tracks);
+            trackToArray(albumId, trackFormList);
+            trackMapper.insert(trackFormList);
         }
     }
 
     public void updateTrack(Long albumId, List<TrackFormDto> trackFormList) {
 
-        List<Track> tracks = trackToArray(albumId, trackFormList);
-
-        deleteTracks(albumId, tracks);
-        insertTracks(tracks);
-        updateTracks(tracks);
+        trackToArray(albumId, trackFormList);
+        deleteTracks(albumId, trackFormList);
+        insertTracks(trackFormList);
+        updateTracks(trackFormList);
     }
 
-    private List<Track> trackToArray(Long albumId, List<TrackFormDto> trackFormList){
-        return trackFormList.stream()
-                .map(item -> {
-                    Track track = modelMapper.map(item, Track.class);
-                    track.setAlbumId(albumId);
-                    return track;
-                })
-                .collect(Collectors.toList());
+    private void trackToArray(Long albumId, List<TrackFormDto> trackFormList){
+        trackFormList.stream().forEach(item -> item.setAlbumId(albumId));
     }
 
-    private void insertTracks(List<Track> tracks) {
-        List<Track> insertList = tracks.stream()
+    private void insertTracks(List<TrackFormDto> tracks) {
+        List<TrackFormDto> insertList = tracks.stream()
                 .filter(item -> item.getId() == null).collect(Collectors.toList());
         if(insertList.size() > 0){
             trackMapper.insert(insertList);
         }
     }
 
-    private void updateTracks(List<Track> tracks) {
-        List<Track> updateList = tracks.stream()
+    private void updateTracks(List<TrackFormDto> tracks) {
+        List<TrackFormDto> updateList = tracks.stream()
                 .filter(item -> item.getId() != null).collect(Collectors.toList());
         if(updateList.size() > 0){
             trackMapper.update(updateList);
         }
     }
 
-    private void deleteTracks(Long albumId, List<Track> tracks){
-        List<Track> deleteList = trackMapper.findList(albumId).stream()
+    private void deleteTracks(Long albumId, List<TrackFormDto> tracks){
+        List<TrackDto> deleteList = trackMapper.findList(albumId).stream()
                 .filter(item -> !tracks.stream()
                         .map(i -> i.getId()).collect(Collectors.toList())
                         .contains(item.getId())).collect(Collectors.toList());

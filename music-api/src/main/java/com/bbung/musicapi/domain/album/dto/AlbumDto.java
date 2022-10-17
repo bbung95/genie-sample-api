@@ -1,6 +1,7 @@
 package com.bbung.musicapi.domain.album.dto;
 
-import com.bbung.musicapi.entity.Track;
+import com.bbung.musicapi.domain.track.dto.TrackDto;
+import com.bbung.musicapi.domain.track.dto.TrackFormDto;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,5 +30,5 @@ public class AlbumDto {
     private LocalDateTime createdDate;
 
     @JsonView(AlbumDetailView.class)
-    public List<Track> tracks = new ArrayList<>();
+    public List<TrackFormDto> tracks = new ArrayList<>();
 }

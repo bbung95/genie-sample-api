@@ -133,9 +133,7 @@ class ArtistServiceTest {
                         .nationality("다국적")
                         .build();
 
-            int result = artistService.updateArtist(id, artistUpdateFormDto);
-
-            assertThat(result).isEqualTo(SUCCESS);
+            artistService.updateArtist(id, artistUpdateFormDto);
         }
 
         @Test
@@ -178,9 +176,8 @@ class ArtistServiceTest {
 
             Long id = artistService.saveArtist(artistFormDto);
 
-            int result = artistService.deleteArtist(id);
+            artistService.deleteArtist(id);
 
-            assertThat(result).isEqualTo(SUCCESS);
         }
 
         @Test

@@ -6,7 +6,6 @@ import com.bbung.musicapi.domain.artist.dto.*;
 import com.bbung.musicapi.domain.artist.exception.ArtistNotFoundException;
 import com.bbung.musicapi.domain.artist.listener.ArtistDeleteEvent;
 import com.bbung.musicapi.domain.artist.mapper.ArtistMapper;
-import com.bbung.musicapi.entity.Artist;
 import com.bbung.musicapi.util.AuthUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -16,42 +15,32 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 public class ArtistService {
 
     private final ArtistMapper artistMapper;
-
     private final ModelMapper modelMapper;
-
     private final AuthUtil authUtil;
-
 
     private final ApplicationEventPublisher applicationEventPublisher;
 
     public Long saveArtist(ArtistFormDto artistFormDto){
 
         MemberInfo memberInfo = authUtil.getAuth();
+        artistFormDto.setRegistrant(memberInfo.getName());
 
-        Artist artist = modelMapper.map(artistFormDto, Artist.class);
-        artist.setRegistrant(memberInfo.getName());
+        artistMapper.insert(artistFormDto);
 
-        artistMapper.insert(artist);
-
-        return artist.getId();
+        return artistFormDto.getId();
     }
 
     public ArtistDto findById(Long id){
 
-        Optional<ArtistDto> findArtist = artistMapper.findById(id);
+        ArtistDto artistDto = artistMapper.findById(id)
+                .orElseThrow(() -> new ArtistNotFoundException(Long.toString(id)));
 
-        if(!findArtist.isPresent()){
-            throw new ArtistNotFoundException(Long.toString(id));
-        }
-
-        return findArtist.get();
+        return artistDto;
     }
 
     public PageResponse<ArtistListDto> findList(ArtistSearchParam param){
@@ -67,23 +56,17 @@ public class ArtistService {
                 .build();
     }
 
-    public int updateArtist(Long id, ArtistUpdateFormDto artistUpdateFormDto) {
+    public void updateArtist(Long id, ArtistUpdateFormDto artistUpdateFormDto) {
 
         findById(id);
-
-        int result = artistMapper.update(id, artistUpdateFormDto);
-
-        return result;
+        artistMapper.update(id, artistUpdateFormDto);
     }
 
     @Transactional
-    public int deleteArtist(Long id) {
+    public void deleteArtist(Long id) {
 
         findById(id);
-
         applicationEventPublisher.publishEvent(new ArtistDeleteEvent(id));
-
-        return 1;
     }
 
 }

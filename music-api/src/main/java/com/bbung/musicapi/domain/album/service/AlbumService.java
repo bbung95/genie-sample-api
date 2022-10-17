@@ -10,17 +10,13 @@ import com.bbung.musicapi.domain.album.listener.AlbumDeleteEvent;
 import com.bbung.musicapi.domain.album.mapper.AlbumMapper;
 import com.bbung.musicapi.domain.artist.service.ArtistService;
 import com.bbung.musicapi.domain.track.service.TrackService;
-import com.bbung.musicapi.entity.Album;
 import com.bbung.musicapi.util.AuthUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -32,8 +28,6 @@ public class AlbumService {
 
     private final TrackService trackService;
 
-    private final ModelMapper modelMapper;
-
     private final AuthUtil authUtil;
 
     private final ApplicationEventPublisher applicationEventPublisher;
@@ -44,26 +38,20 @@ public class AlbumService {
         artistService.findById(albumFormDto.getArtistId());
 
         MemberInfo memberInfo = authUtil.getAuth();
+        albumFormDto.setRegistrant(memberInfo.getName());
 
-        Album album = modelMapper.map(albumFormDto, Album.class);
-        album.setRegistrant(memberInfo.getName());
+        albumMapper.insert(albumFormDto);
+        trackService.saveTracks(albumFormDto.getId(), albumFormDto.getTracks());
 
-        albumMapper.insert(album);
-
-        trackService.saveTracks(album.getId(), albumFormDto.getTracks());
-
-        return album.getId();
+        return albumFormDto.getId();
     }
 
     public AlbumDto findById(Long id) {
 
-        Optional<AlbumDto> albumDto = albumMapper.findById(id);
+        AlbumDto albumDto = albumMapper.findById(id)
+                .orElseThrow(() -> new AlbumNotFoundException(Long.toString(id)));
 
-        if(!albumDto.isPresent()){
-            throw new AlbumNotFoundException(Long.toString(id));
-        }
-
-        return albumDto.get();
+        return albumDto;
     }
 
     public PageResponse<AlbumDto> findList(AlbumSearchParam param) {
@@ -92,11 +80,9 @@ public class AlbumService {
     }
 
     @Transactional
-    public int deleteAlbum(Long id){
+    public void deleteAlbum(Long id){
 
         findById(id);
         applicationEventPublisher.publishEvent(new AlbumDeleteEvent(id));
-
-        return 1;
     }
 }

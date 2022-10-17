@@ -4,7 +4,7 @@ spring:
       enabled: true   # H2 console
   datasource:
     driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:testdb;MODE=MySQL;DB_CLOSE_DELAY=-1
+    url: jdbc:h2:mem:testdb;MODE=MYSQL;DB_CLOSE_DELAY=-1
     username: sa
     password:
     generate-unique-name : false

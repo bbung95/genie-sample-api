@@ -30,6 +30,9 @@ public class AlbumFormDto {
     private Long genreId = 0L;
     private String contents;
 
+    private Long id;
+    private String registrant;
+
     @Valid
     @Builder.Default
     private List<TrackFormDto> tracks = new ArrayList<>();

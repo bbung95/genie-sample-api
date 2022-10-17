@@ -13,7 +13,7 @@
         </foreach>
     </insert>
 
-    <select id="findList" resultType="Track">
+    <select id="findList" resultType="TrackDto">
         SELECT
         id
         FROM track

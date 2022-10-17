@@ -1,4 +1,4 @@
-package com.bbung.musicapi.entity;
+package com.bbung.musicapi.domain.genre.dto;
 
 import lombok.*;
 
@@ -11,15 +11,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Artist {
+public class Genre {
 
     private Long id;
-    private String name;
-    private String agency;
-    private String nationality;
-    private String contents;
-    private String registrant;
-    private LocalDate birthday;
+    private String title;
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
 }

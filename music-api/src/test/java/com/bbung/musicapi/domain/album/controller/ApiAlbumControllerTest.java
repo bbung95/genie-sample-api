@@ -2,10 +2,10 @@ package com.bbung.musicapi.domain.album.controller;
 
 import com.bbung.musicapi.domain.album.dto.AlbumFormDto;
 import com.bbung.musicapi.domain.album.service.AlbumService;
+import com.bbung.musicapi.domain.artist.dto.ArtistFormDto;
 import com.bbung.musicapi.domain.artist.mapper.ArtistMapper;
 import com.bbung.musicapi.domain.track.dto.TrackFormDto;
 import com.bbung.musicapi.domain.track.enums.TrackExposure;
-import com.bbung.musicapi.entity.Artist;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +44,7 @@ class ApiAlbumControllerTest {
 
     @BeforeEach
     public void sampleArtist(){
-        Artist artist = Artist.builder()
+        ArtistFormDto artist = ArtistFormDto.builder()
                 .name("뉴진스")
                 .agency("ADOR")
                 .birthday(LocalDate.of(2022, 7, 22))

@@ -1,7 +1,7 @@
 package com.bbung.musicapi.domain.genre.controller;
 
 import com.bbung.musicapi.domain.genre.mapper.GenreMapper;
-import com.bbung.musicapi.entity.Genre;
+import com.bbung.musicapi.domain.genre.dto.Genre;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,10 +1,6 @@
 package com.bbung.musicapi.domain.artist.mapper;
 
-import com.bbung.musicapi.domain.artist.dto.ArtistDto;
-import com.bbung.musicapi.domain.artist.dto.ArtistListDto;
-import com.bbung.musicapi.domain.artist.dto.ArtistSearchParam;
-import com.bbung.musicapi.domain.artist.dto.ArtistUpdateFormDto;
-import com.bbung.musicapi.entity.Artist;
+import com.bbung.musicapi.domain.artist.dto.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +25,7 @@ class ArtistMapperTest {
     @DisplayName("아티스트 등록 테스트")
     public void insertTest() throws Exception {
 
-        Artist artist = Artist.builder()
+        ArtistFormDto artist = ArtistFormDto.builder()
                 .name("뉴진스")
                 .agency("ADOR")
                 .birthday(LocalDate.of(2022, 7, 22))
@@ -47,7 +43,7 @@ class ArtistMapperTest {
     @DisplayName("아티스트 상세보기 테스트")
     public void findTest() throws Exception {
 
-        Artist artist = Artist.builder()
+        ArtistFormDto artist = ArtistFormDto.builder()
                 .name("뉴진스")
                 .agency("ADOR")
                 .birthday(LocalDate.of(2022, 7, 22))
@@ -75,7 +71,7 @@ class ArtistMapperTest {
         int loopCount = 100;
 
         for(int i = 0; i < loopCount; i++){
-            Artist artist = Artist.builder()
+            ArtistFormDto artist = ArtistFormDto.builder()
                     .name("뉴진스" + i)
                     .agency("ADOR")
                     .birthday(LocalDate.of(2022, 7, 22))
@@ -99,7 +95,7 @@ class ArtistMapperTest {
     @DisplayName("아티스트 수정 테스트")
     public void updateTest() throws Exception {
 
-        Artist artist = Artist.builder()
+        ArtistFormDto artist = ArtistFormDto.builder()
                 .name("뉴진스")
                 .agency("ADOR")
                 .birthday(LocalDate.of(2022, 7, 22))
@@ -129,7 +125,7 @@ class ArtistMapperTest {
     @DisplayName("아티스트 삭제 테스트")
     public void deleteTest() throws Exception {
 
-        Artist artist = Artist.builder()
+        ArtistFormDto artist = ArtistFormDto.builder()
                 .name("뉴진스")
                 .agency("ADOR")
                 .birthday(LocalDate.of(2022, 7, 22))

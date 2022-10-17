@@ -35,7 +35,6 @@ public class ApiArtistController {
 
         Long id = artistService.saveArtist(artistFormDto);
         ObjectNode bodyData = objectMapper.createObjectNode().put("id", id);
-
         return ResponseEntity.status(HttpStatus.CREATED).body(bodyData);
     }
 
@@ -43,7 +42,6 @@ public class ApiArtistController {
     public ResponseEntity findArtist(@PathVariable Long id){
 
         ArtistDto artistDto = artistService.findById(id);
-
         return ResponseEntity.status(HttpStatus.OK).body(artistDto);
     }
 
@@ -51,7 +49,6 @@ public class ApiArtistController {
     public ResponseEntity findArtistList(ArtistSearchParam param){
 
         PageResponse<ArtistListDto> result = artistService.findList(param);
-
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
@@ -65,7 +62,6 @@ public class ApiArtistController {
         }
 
         artistService.updateArtist(id, artistUpdateFormDto);
-
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
@@ -73,7 +69,6 @@ public class ApiArtistController {
     public ResponseEntity deleteArtist(@PathVariable Long id) {
 
         artistService.deleteArtist(id);
-
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 }
