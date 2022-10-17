@@ -19,7 +19,6 @@ import static org.junit.jupiter.api.Assertions.*;
 @Sql("/truncate.sql")
 class ArtistServiceTest {
 
-    private final int SUCCESS = 1;
     @Autowired
     private ArtistService artistService;
 

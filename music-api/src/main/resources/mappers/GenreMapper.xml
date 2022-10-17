@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bbung.musicapi.domain.genre.mapper.GenreMapper">
 
-    <select id="findList" resultType="Genre">
+    <select id="findList" resultType="GenreListDto">
         SELECT
         id, title, created_date, modified_date
         FROM genre

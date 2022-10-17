@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Genre {
+public class GenreListDto {
 
     private Long id;
     private String title;

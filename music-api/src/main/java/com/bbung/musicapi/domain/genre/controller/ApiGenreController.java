@@ -1,7 +1,7 @@
 package com.bbung.musicapi.domain.genre.controller;
 
+import com.bbung.musicapi.domain.genre.dto.GenreListDto;
 import com.bbung.musicapi.domain.genre.mapper.GenreMapper;
-import com.bbung.musicapi.domain.genre.dto.Genre;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +21,7 @@ public class ApiGenreController {
     @GetMapping
     public ResponseEntity findList(){
 
-        List<Genre> list = genreMapper.findList();
+        List<GenreListDto> list = genreMapper.findList();
 
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }

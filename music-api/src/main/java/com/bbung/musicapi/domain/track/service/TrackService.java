@@ -5,7 +5,6 @@ import com.bbung.musicapi.domain.track.dto.TrackFormDto;
 import com.bbung.musicapi.domain.track.mapper.TrackMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,8 +16,6 @@ import java.util.stream.Collectors;
 public class TrackService {
 
     private final TrackMapper trackMapper;
-
-    private final ModelMapper modelMapper;
 
     public void saveTracks(Long albumId, List<TrackFormDto> trackFormList){
 

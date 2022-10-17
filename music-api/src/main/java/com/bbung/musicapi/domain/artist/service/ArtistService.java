@@ -10,7 +10,6 @@ import com.bbung.musicapi.util.AuthUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class ArtistService {
 
     private final ArtistMapper artistMapper;
-    private final ModelMapper modelMapper;
     private final AuthUtil authUtil;
 
     private final ApplicationEventPublisher applicationEventPublisher;
