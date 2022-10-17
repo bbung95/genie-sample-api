@@ -33,9 +33,10 @@ Music-API 설계 및 구현
     - 삭제
 - Track
     - 등록
-    - 목록 조회 & 검색
     - 수정
     - 삭제
+- Genre
+    - 목록 조회
 
 ### API
 - PostMan Documents  
